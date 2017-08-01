@@ -1,0 +1,40 @@
+{
+  "name": "node-wp-api-gateway",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha --reporter spec --compilers ts:ts-node/register 'tests/**/*.test.ts'",
+    "start": "node dist/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@partnercomm.git.beanstalkapp.com:/partnercomm/node-wp-api-gateway.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/body-parser": "^1.16.4",
+    "@types/chai": "^4.0.2",
+    "@types/chai-http": "^3.0.0",
+    "@types/debug": "0.0.29",
+    "@types/express": "^4.0.36",
+    "@types/mocha": "^2.2.41",
+    "@types/morgan": "^1.7.32",
+    "@types/node": "^8.0.18",
+    "chai": "^4.1.0",
+    "chai-http": "^3.0.0",
+    "gulp": "^3.9.1",
+    "gulp-typescript": "^3.2.1",
+    "mocha": "^3.5.0",
+    "ts-node": "^3.3.0",
+    "typescript": "^2.4.2"
+  },
+  "dependencies": {
+    "body-parser": "^1.17.2",
+    "debug": "^2.6.8",
+    "express": "^4.15.3",
+    "morgan": "^1.8.2"
+  }
+}
