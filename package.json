@@ -35,6 +35,12 @@
     "body-parser": "^1.17.2",
     "debug": "^2.6.8",
     "express": "^4.15.3",
-    "morgan": "^1.8.2"
+    "http": "0.0.0",
+    "https": "^1.0.0",
+    "morgan": "^1.8.2",
+    "nock": "^9.0.14",
+    "url-parse": "^1.1.9",
+    "urldecode": "^1.0.1",
+    "valid-url": "^1.0.9"
   }
 }

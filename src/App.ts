@@ -3,7 +3,7 @@ import * as express from 'express';
 import * as logger from 'morgan';
 import * as bodyParser from 'body-parser';
 
-import FetchRouter from './routes/FetchRouter';
+import {FetchRouter} from './routes/FetchRouter';
 
 
 // Creates and configures an ExpressJS web server.
@@ -13,7 +13,7 @@ class App {
   public express: express.Application;
 
   //Run configuration methods on the Express instance.
-  constructor() {
+  constructor(private fetchRouter:FetchRouter) {
     this.express = express();
     this.middleware();
     this.routes();
@@ -39,9 +39,9 @@ class App {
       });
     });
     this.express.use('/', router);
-    this.express.use('/api/v1/fetch', FetchRouter);
+    this.express.use('/api/v1/fetch', this.fetchRouter.router);
   }
 
 }
 
-export default new App().express;
+export default new App(new FetchRouter()).express;
