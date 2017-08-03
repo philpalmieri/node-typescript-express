@@ -7,6 +7,6 @@ export interface UrlObject {
     port: number;
     pathname: string;
     query: Object;
-    orign: string;
+    origin: string;
     href: string;
 }

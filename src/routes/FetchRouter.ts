@@ -1,8 +1,7 @@
 import { UrlObject } from './../interfaces/UrlObjectInterface';
 import { UrlExtractor } from './../UrlExtractor';
 import {Router, Request, Response, NextFunction} from 'express';
-import * as http from 'http';
-import * as https from 'https';
+const request = require('request-json');
 import * as urldecode from 'urldecode';
 
 export class FetchRouter {
@@ -23,14 +22,22 @@ export class FetchRouter {
 
         try {
             let urlObject = this.extractUrl(req.params.url);
-            res.send({
-                data: {},
-                cacheDate: new Date(),
-                requestOrigin: null,
-                origionalUrl: urlObject.href
+
+            var client = request.createClient(urlObject.origin);
+            let queryString = this.buildQueryString(urlObject.query);
+
+
+            client.get(`${urlObject.pathname.replace('/', '')}?${queryString}`, (error, response, body) => {
+                res.send({
+                    data: body,
+                    cacheDate: new Date(),
+                    requestOrigin: null,
+                    origionalUrl: urlObject.href
+                });
             });
 
-        } catch(e) {
+
+        } catch (e) {
             res.send({
                 data: 'invalid / unauthorized url',
                 cacheDate: null,
@@ -39,6 +46,12 @@ export class FetchRouter {
             });
         }
         
+    }
+
+    private buildQueryString(queryObject) {
+        return Object.keys(queryObject)
+                        .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(queryObject[key])}`)
+                        .join('&');
     }
 
     private extractUrl(url: string):UrlObject {

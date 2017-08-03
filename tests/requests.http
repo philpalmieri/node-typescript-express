@@ -1,1 +1,1 @@
-GET http://localhost:3000/api/v1/fetch/http://www.google.com
+GET http://localhost:3000/api/v1/fetch/http%3A%2F%2Fptime-api.pcommcloud.com%2Fclients%3Fsearch%3Decg
