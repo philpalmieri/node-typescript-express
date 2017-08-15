@@ -1,1 +1,24 @@
 GET http://localhost:3000/api/v1/fetch/http%3A%2F%2Fptime-api.pcommcloud.com%2Fclients%3Fsearch%3Decg
+
+###
+
+PUT http://localhost:3000/api/v1/analytics/pageview HTTP/1.1
+content-type: application/json
+
+{
+    "id": "UA-84285436-1",
+    "page": "Mobile: foobar",
+    "title": "Foo Bar",
+    "host": "http://www.ppalmieri.com"
+}
+
+###
+
+PUT http://localhost:3000/api/v1/analytics/event HTTP/1.1
+content-type: application/json
+
+{
+    "id": "UA-84285436-1",
+    "category": "Test Category",
+    "action": "Test Action"
+}

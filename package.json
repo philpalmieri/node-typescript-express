@@ -28,7 +28,9 @@
     "gulp": "^3.9.1",
     "gulp-typescript": "^3.2.1",
     "mocha": "^3.5.0",
+    "mock-require": "^2.0.2",
     "nock": "^9.0.14",
+    "sinon": "^3.2.0",
     "ts-node": "^3.3.0",
     "typescript": "^2.4.2"
   },
@@ -41,6 +43,8 @@
     "morgan": "^1.8.2",
     "request": "^2.81.0",
     "request-json": "^0.6.2",
+    "universal-analytics": "^0.4.15",
+    "universal-ga": "^1.1.0",
     "url-parse": "^1.1.9",
     "urldecode": "^1.0.1",
     "valid-url": "^1.0.9"
