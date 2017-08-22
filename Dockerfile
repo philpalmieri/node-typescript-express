@@ -8,4 +8,7 @@ COPY . .
 
 EXPOSE 3000
 
+RUN npm install --global nodemon
+
 CMD [ "npm", "start" ]
+#MD ["nodemon", "-L", "/usr/src/app/dist/app.js"]

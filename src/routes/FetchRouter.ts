@@ -4,11 +4,17 @@ import {Router, Request, Response, NextFunction} from 'express';
 const request = require('request-json');
 import * as urldecode from 'urldecode';
 
+import { Cache } from '../Cache';
+import { RedisCache } from '../RedisCache';
+
+
 export class FetchRouter {
     router: Router;
+    cache: Cache;
 
     constructor() {
         this.router = Router();
+        this.cache = new RedisCache();
         this.init();
     }
 
@@ -22,21 +28,29 @@ export class FetchRouter {
 
         try {
             let urlObject = this.extractUrl(req.params.url);
-
-            var client = request.createClient(urlObject.origin);
             let queryString = this.buildQueryString(urlObject.query);
 
-
-            client.get(`${urlObject.pathname.replace('/', '')}?${queryString}`, (error, response, body) => {
-                res.send({
-                    data: body,
-                    cacheDate: new Date(),
-                    requestOrigin: null,
-                    origionalUrl: urlObject.href
-                });
+            this.cache.fetch(req.params.url, (cachedData)=>{
+                if(cachedData) {
+                    res.send({
+                        data: cachedData,
+                        requestOrigin: null,
+                        originalUrl: urlObject.href,
+                        fromCache: true
+                    })
+                } else {
+                    var client = request.createClient(urlObject.origin);
+                    client.get(`${urlObject.pathname.replace('/', '')}?${queryString}`, (error, response, body) => {
+                        this.cache.set(req.params.url, body);
+                        res.send({
+                            data: body,
+                            requestOrigin: null,
+                            origionalUrl: urlObject.href,
+                            fromCache: false
+                        });
+                    });
+                }
             });
-
-
         } catch (e) {
             res.send({
                 data: 'invalid / unauthorized url',

@@ -1,0 +1,15 @@
+version: '2' # specify docker-compose version
+
+# Define the services/containers to be run
+services:
+  node:
+    build: .
+    volumes:
+      - ".:/usr/src/app"
+    ports:
+      - "3000:3000"
+  redis:
+    container_name: redis
+    image: redis
+    ports:
+      - "6379:6379"
