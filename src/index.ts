@@ -4,6 +4,7 @@ import * as debug from 'debug';
 import App from './App';
 
 debug('ts-express:server');
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 
 const port = normalizePort(process.env.PORT || 3000);
 App.set('port', port);

@@ -8,8 +8,20 @@ services:
       - ".:/usr/src/app"
     ports:
       - "3000:3000"
+    networks:
+      - public
+      - private
+      
   redis:
     container_name: redis
     image: redis
     ports:
       - "6379:6379"
+    networks:
+      - private
+
+networks:
+  public:
+    driver: bridge
+  private:
+    driver: bridge

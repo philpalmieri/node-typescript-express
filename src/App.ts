@@ -2,7 +2,7 @@ import * as path from 'path';
 import * as express from 'express';
 import * as logger from 'morgan';
 import * as bodyParser from 'body-parser';
-
+var cors = require('cors');
 import { FetchRouter } from './routes/FetchRouter';
 import { AnalyticsRouter } from './routes/AnalyticsRouter';
 
@@ -40,8 +40,23 @@ class App {
         version: "0.2.0"
       });
     });
-    this.express.use('/', router);
-    this.express.use('/api/v1/fetch', this.fetchRouter.router);
+
+    const whitelist = ['http://localhost:4200', 'http://localhost'];
+    
+    
+    var corsOptions = {
+      origin: function (origin, callback) {
+        callback(null, true)
+        // if (whitelist.indexOf(origin) !== -1) {
+        //   callback(null, true)
+        // } else {
+        //   callback(new Error('Not allowed by CORS'))
+        // }
+      }
+    }
+
+    this.express.use('/', router, cors(corsOptions));
+    this.express.use('/api/v1/fetch', this.fetchRouter.router, cors(corsOptions));
     this.express.use('/api/v1/analytics', this.analyticsRouter.router);
   }
   

@@ -31,7 +31,7 @@ export class FetchRouter {
             let queryString = this.buildQueryString(urlObject.query);
 
             this.cache.fetch(req.params.url, (cachedData)=>{
-                if(cachedData) {
+                if(cachedData) { //cachedData
                     res.send({
                         data: cachedData,
                         requestOrigin: null,
@@ -41,7 +41,8 @@ export class FetchRouter {
                 } else {
                     var client = request.createClient(urlObject.origin);
                     client.get(`${urlObject.pathname.replace('/', '')}?${queryString}`, (error, response, body) => {
-                        this.cache.set(req.params.url, body);
+                        console.log(error);
+                        //this.cache.set(req.params.url, body);
                         res.send({
                             data: body,
                             requestOrigin: null,
@@ -52,8 +53,9 @@ export class FetchRouter {
                 }
             });
         } catch (e) {
+            console.log(e);
             res.send({
-                data: 'invalid / unauthorized url',
+                data: 'invalid / unauthorized url' + e,
                 cacheDate: null,
                 requestOrigin: null,
                 origionalUrl: null
