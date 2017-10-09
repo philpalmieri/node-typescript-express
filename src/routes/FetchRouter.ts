@@ -29,29 +29,42 @@ export class FetchRouter {
         try {
             let urlObject = this.extractUrl(req.params.url);
             let queryString = this.buildQueryString(urlObject.query);
-
-            this.cache.fetch(req.params.url, (cachedData)=>{
-                if(cachedData) { //cachedData
-                    res.send({
-                        data: cachedData,
-                        requestOrigin: null,
-                        originalUrl: urlObject.href,
-                        fromCache: true
-                    })
-                } else {
-                    var client = request.createClient(urlObject.origin);
-                    client.get(`${urlObject.pathname.replace('/', '')}?${queryString}`, (error, response, body) => {
-                        console.log(error);
-                        //this.cache.set(req.params.url, body);
-                        res.send({
-                            data: body,
-                            requestOrigin: null,
-                            origionalUrl: urlObject.href,
-                            fromCache: false
-                        });
-                    });
-                }
+            res.setHeader('Cache-Control', 'no-cache');
+            var client = request.createClient(urlObject.origin);
+            client.get(`${urlObject.pathname.replace('/', '')}?${queryString}`, (error, response, body) => {
+                //console.log(error);
+                //this.cache.set(req.params.url, body);
+                body = (error) ? error : body;
+                res.send({
+                    data: body,
+                    requestOrigin: null,
+                    origionalUrl: urlObject.href,
+                    fromCache: false
+                });
             });
+
+            // this.cache.fetch(req.params.url, (cachedData)=>{
+            //     if(cachedData) { //cachedData
+            //         res.send({
+            //             data: cachedData,
+            //             requestOrigin: null,
+            //             originalUrl: urlObject.href,
+            //             fromCache: true
+            //         });
+            //     } else {
+            //         var client = request.createClient(urlObject.origin);
+            //         client.get(`${urlObject.pathname.replace('/', '')}?${queryString}`, (error, response, body) => {
+            //             console.log(error);
+            //             //this.cache.set(req.params.url, body);
+            //             res.send({
+            //                 data: body,
+            //                 requestOrigin: null,
+            //                 origionalUrl: urlObject.href,
+            //                 fromCache: false
+            //             });
+            //         });
+            //     }
+            //});
         } catch (e) {
             console.log(e);
             res.send({
