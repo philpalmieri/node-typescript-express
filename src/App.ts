@@ -25,6 +25,10 @@ class App {
     this.express.use(logger('dev'));
     this.express.use(bodyParser.json());
     this.express.use(bodyParser.urlencoded({ extended: false }));
+    this.express.use(function(req, res, next) {
+      req.headers['if-none-match'] = 'no-match-for-this';
+      next();    
+    });
   }
 
   // Configure API endpoints.

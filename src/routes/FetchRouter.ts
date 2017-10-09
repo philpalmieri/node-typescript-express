@@ -30,6 +30,7 @@ export class FetchRouter {
             let urlObject = this.extractUrl(req.params.url);
             let queryString = this.buildQueryString(urlObject.query);
             res.setHeader('Cache-Control', 'no-cache');
+            res.setHeader('Content-Type', 'application/json');
             var client = request.createClient(urlObject.origin);
             client.get(`${urlObject.pathname.replace('/', '')}?${queryString}`, (error, response, body) => {
                 //console.log(error);
